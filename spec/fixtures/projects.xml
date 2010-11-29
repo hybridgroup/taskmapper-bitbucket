@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+    <repositories>
+        <resource>
+            <website></website>
+            <slug>test-repo</slug>
+            <name>test-repo</name>
+            <followers_count>1</followers_count>
+            <description>Testing ticketmaster with this repo</description>
+        </resource>
+    </repositories>
+    <user>
+        <username>cored</username>
+        <first_name></first_name>
+        <last_name></last_name>
+        <resource_uri>/1.0/users/cored/</resource_uri>
+    </user>
+</response>
