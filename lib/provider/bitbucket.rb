@@ -3,7 +3,7 @@ module TicketMaster::Provider
   module Bitbucket
     include TicketMaster::Provider::Base
     #TICKET_API = Bitbucket::Ticket # The class to access the api's tickets
-    #PROJECT_API = Bitbucket::Project # The class to access the api's projects
+    PROJECT_API = Bitbucket::Project # The class to access the api's projects
     
     # This is for cases when you want to instantiate using TicketMaster::Provider::Bitbucket.new(auth)
     def self.new(auth = {})
@@ -14,7 +14,11 @@ module TicketMaster::Provider
     # parameters to access the API
     def authorize(auth = {})
       @authentication ||= TicketMaster::Authenticator.new(auth)
-      # Set authentication parameters for whatever you're using to access the API
+      auth = @authentication
+      if auth.username.nil? or auth.password.nil?
+        raise "Please provide at least a public username"
+      end
+      BitbucketAPI.authenticate(auth.username, auth.password)
     end
     
     # declare needed overloaded methods here
