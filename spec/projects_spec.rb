@@ -3,8 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "Ticketmaster::Provider::Bitbucket::Project" do
     before(:all) do 
         headers = {}
+        @username = 'cored'
         ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/1.0/users/cored/?format=xml', headers, fixture_for('projects'), 200
+            mock.get '/users//projects.xml', headers, fixture_for('projects'), 200
         end
     end
 
