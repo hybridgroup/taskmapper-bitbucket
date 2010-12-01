@@ -4,35 +4,63 @@ require 'active_resource'
 
 module BitbucketAPI
     class Error < StandardError; end
-
+        
     class << self
-        attr_accessor :username, :password, :host_format 
-
+        attr_accessor :username, :password
+        
         def authenticate(username, password)
             @username = username 
             @password = password
-            self::Base.user = username
-            self::Base.password = password
-            resources.each do |klass|
-                klass.site = host_format % username
+            resources.each do |resource|
+              resource.user = @username
+              resource.password = @password
             end
         end
 
+        
         def resources
             @resources ||= []
         end
     end
-
-    self.host_format    = 'https://api.bitbucket.org/1.0/users/%s/'
-
+    
     class Base < ActiveResource::Base
         self.format = :json
+        self.site = 'https://api.bitbucket.org/1.0/'
+        
         def self.inherited(base)
             BitbucketAPI.resources << base
             super
         end
+      
+      def self.element_path(id, prefix_options = {}, query_options = nil)
+        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+        "#{prefix(prefix_options)}#{collection_name}/#{id}/#{query_string(query_options)}"
+      end
+
+      def self.collection_path(prefix_options = {}, query_options = nil)
+        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+        "#{prefix(prefix_options)}#{collection_name}/#{query_string(query_options)}"
+      end
     end
 
-    class Project < Base
+    class User < Base
+    end
+
+    class Repository < Base
+      def self.find_every(options)
+        if options[:user_id] and options[:from].is_a?(Symbol)
+          User.find(options[:user_id]).repositories
+        else
+          super(options)
+        end
+      end
+
+      def issues
+        #TODO : Get all issues
+      end
+    end
+
+    class Issue < Base
+      self.site += 'repositories/:user/bitbucket/issues'
     end
 end
