@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Ticketmaster::Provider::Bitbucket::Project" do
     before(:all) do 
-        headers = {}
+        headers = {'Authorization' => 'Basic Zm9vOjAwMDAwMA==', 'Accept' => 'application/json'}
         @username = 'foo'
         ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/1.0/users/foo', headers, fixture_for('projects'), 200 
+            mock.get '/1.0/users/foo/projects.json', headers, fixture_for('projects'), 200 
         end
     end
 
