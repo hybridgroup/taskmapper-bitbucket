@@ -23,7 +23,7 @@ module BitbucketAPI
         end
     end
 
-    self.host_format    = 'https://api.bitbucket.org/1.0/users/%s'
+    self.host_format    = 'https://api.bitbucket.org/1.0/users/%s/'
 
     class Base < ActiveResource::Base
         self.format = :json
