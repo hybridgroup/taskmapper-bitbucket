@@ -18,6 +18,8 @@ module TicketMaster::Provider
       if auth.username.nil? or auth.password.nil?
         raise "Please provide at least a public username"
       end
+      BitbucketAPI.protocol = auth.protocol if auth.protocol?
+      BitbucketAPI.username = auth.username 
       BitbucketAPI.authenticate(auth.username, auth.password)
     end
     

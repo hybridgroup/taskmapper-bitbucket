@@ -6,34 +6,41 @@ module BitbucketAPI
     class Error < StandardError; end
 
     class << self
-      def authenticate(username, password)
-        @username = username 
-        @password = password
-        self::Base.user = username
-        self::Base.password = password
-      end
+        attr_accessor :username, :password, :host_format, :domain_format, :protocol, :port
 
-      def resources
-        @resources ||= []
-      end
+        def authenticate(username, password)
+            @username = username 
+            @password = password
+            self::Base.user = username
+            self::Base.password = password
+            resources.each do |klass|
+                klass.site = klass.site_format % (host_format % [protocol, domain_format % username, ":#{port}"])
+            end
+        end
+
+        def resources
+            @resources ||= []
+        end
     end
 
+    self.host_format    = '%s://%s%s/1.0'
+    self.domain_format  = 'api.bitbucket.org'
+    self.protocol       = 'https'
+    self.port           = ''
+
     class Base < ActiveResource::Base
-      self.site = 'https://api.bitbucket.org/1.0'
-      def self.inherited(base)
-        BitbucketAPI.resources << base
-        super
-      end
+        self.format = :json
+        def self.inherited(base)
+            BitbucketAPI.resources << base
+            class << base
+                attr_accessor :site_format
+            end
+            base.site_format = '%s'
+            super
+        end
     end
 
     class Project < Base
-      def tickets(options = {})
-        Ticket.find(:all, :params => options.update(:username => username))
-      end
+        self.site_format << "/users/"
     end
-
-    class Ticket < Base
-      self.site += '/repositories/:username/bitbucket/issues/'
-    end
-
 end
