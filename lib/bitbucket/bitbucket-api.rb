@@ -6,7 +6,7 @@ module BitbucketAPI
     class Error < StandardError; end
 
     class << self
-        attr_accessor :username, :password, :host_format, :domain_format, :protocol, :port
+        attr_accessor :username, :password, :host_format 
 
         def authenticate(username, password)
             @username = username 
@@ -14,7 +14,7 @@ module BitbucketAPI
             self::Base.user = username
             self::Base.password = password
             resources.each do |klass|
-                klass.site = klass.site_format % (host_format % [protocol, domain_format % username, ":#{port}"])
+                klass.site = host_format % username
             end
         end
 
@@ -23,24 +23,16 @@ module BitbucketAPI
         end
     end
 
-    self.host_format    = '%s://%s%s/1.0'
-    self.domain_format  = 'api.bitbucket.org'
-    self.protocol       = 'https'
-    self.port           = ''
+    self.host_format    = 'https://api.bitbucket.org/1.0/users/%s'
 
     class Base < ActiveResource::Base
         self.format = :json
         def self.inherited(base)
             BitbucketAPI.resources << base
-            class << base
-                attr_accessor :site_format
-            end
-            base.site_format = '%s'
             super
         end
     end
 
     class Project < Base
-        self.site_format << "/users/"
     end
 end
