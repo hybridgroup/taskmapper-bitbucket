@@ -25,7 +25,7 @@ module BitbucketAPI
     
     class Base < ActiveResource::Base
         self.format = :json
-        self.site = 'http://localhost:4567/1.0/'
+        self.site = 'https://api.bitbucket.org/1.0/'
         
         def self.inherited(base)
             BitbucketAPI.resources << base
