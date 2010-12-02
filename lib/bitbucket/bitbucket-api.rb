@@ -69,7 +69,7 @@ module BitbucketAPI
 
       def issues
         #TODO : Get all issues
-        Issue.find(:all, :params => {:user_id => self.user, :repository_id => self.slug})
+        Issue.find(:all, :params => {:username => self.user, :repository => self.slug})
       end
 
       def user
@@ -78,6 +78,10 @@ module BitbucketAPI
     end
 
     class Issue < Base
-      self.site += 'repositories/:user_id/:repository_id/'
+      self.site += 'repositories/:username/:repository'
+
+      def self.instantiate_collection(collection, prefix_options = {})
+        collection["issues"] 
+      end
     end
 end
