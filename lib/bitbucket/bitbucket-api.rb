@@ -47,6 +47,8 @@ module BitbucketAPI
     end
 
     class Repository < Base
+      self.site += 'repositories/:user_id'
+      
       def self.find_every(options)
         if options[:user_id] and options[:from].is_a?(Symbol)
           User.find(options[:user_id]).repositories
@@ -57,10 +59,11 @@ module BitbucketAPI
 
       def issues
         #TODO : Get all issues
+        Issue.find(:all, :params => {:user_id => self.user, :repository_id => self.slug})
       end
     end
 
     class Issue < Base
-      self.site += 'repositories/:user/bitbucket/issues'
+      self.site += 'repositories/:user_id/:repository_id/'
     end
 end
