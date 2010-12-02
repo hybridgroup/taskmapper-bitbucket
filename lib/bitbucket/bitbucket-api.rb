@@ -25,7 +25,7 @@ module BitbucketAPI
     
     class Base < ActiveResource::Base
         self.format = :json
-        self.site = 'https://api.bitbucket.org/1.0/'
+        self.site = 'http://localhost:4567/1.0/'
         
         def self.inherited(base)
             BitbucketAPI.resources << base
@@ -48,10 +48,15 @@ module BitbucketAPI
 
     class Repository < Base
       self.site += 'repositories/:user_id'
+
+      def self.element_path(id, prefix_options = {}, query_options = nil)
+        prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+        "#{prefix(prefix_options)}#{id}/#{query_string(query_options)}"
+      end
       
       def self.find_every(options)
-        if options[:user_id] and options[:from].is_a?(Symbol)
-          User.find(options[:user_id]).repositories
+        if options[:from].is_a?(String)
+          User.find(options[:from]).repositories
         else
           super(options)
         end
