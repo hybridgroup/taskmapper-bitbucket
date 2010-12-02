@@ -44,10 +44,15 @@ module BitbucketAPI
     end
 
     class User < Base
+      def repositories
+        @attributes['repositories'].each do |repository|
+          repository.prefix_options['username'] = @attributes['user'].username
+        end
+      end
     end
 
     class Repository < Base
-      self.site += 'repositories/:user_id'
+      self.site += 'repositories/:username'
 
       def self.element_path(id, prefix_options = {}, query_options = nil)
         prefix_options, query_options = split_options(prefix_options) if query_options.nil?
@@ -55,8 +60,8 @@ module BitbucketAPI
       end
       
       def self.find_every(options)
-        if options[:from].is_a?(String)
-          User.find(options[:from]).repositories
+        if options[:from].is_a?(String) || !options[:username].blank?
+          User.find(options[:from].is_a?(String) || options[:username]).repositories
         else
           super(options)
         end
@@ -65,6 +70,10 @@ module BitbucketAPI
       def issues
         #TODO : Get all issues
         Issue.find(:all, :params => {:user_id => self.user, :repository_id => self.slug})
+      end
+
+      def user
+        @prefix_options['username']
       end
     end
 
