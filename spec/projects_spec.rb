@@ -13,9 +13,4 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
         @ticketmaster = TicketMaster.new(:bitbucket, {:username => 'foo', :password => '000000'})
         @klass = TicketMaster::Provider::Bitbucket::Project
     end
-
-    it "should be able to load all projects" do 
-        @ticketmaster.projects.should be_an_instance_of(Array)
-    end
-
 end

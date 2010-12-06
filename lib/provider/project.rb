@@ -4,7 +4,7 @@ module TicketMaster::Provider
     #
     #
     class Project < TicketMaster::Provider::Base::Project
-      API = BitbucketAPI::Project # The class to access the api's projects
+      API = BitbucketAPI::Repository # The class to access the api's projects
       # declare needed overloaded methods here
        
       # copy from this.copy(that) copies that into this

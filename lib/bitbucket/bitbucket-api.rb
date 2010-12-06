@@ -81,7 +81,7 @@ module BitbucketAPI
       self.site += 'repositories/:username/:repository'
 
       def self.instantiate_collection(collection, prefix_options = {})
-        collection["issues"] 
+        collection["issues"].collect { |record| instantiate_record(record, prefix_options) }
       end
     end
 end
