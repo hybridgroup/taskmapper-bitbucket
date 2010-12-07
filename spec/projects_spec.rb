@@ -4,7 +4,7 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
     before(:all) do 
         headers = {'Authorization' => 'Basic Zm9vOjAwMDAwMA==', 'Accept' => 'application/json'}
         ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/1.0/repositories//repositories/', headers, fixture_for('projects'), 200 
+            mock.get '/1.0/users/foo/', headers, fixture_for('projects'), 200 
         end
     end
 
