@@ -7,16 +7,20 @@ describe "BitbucketAPI" do
         @repo_response = { :prefix => 1 }
         ActiveResource::HttpMock.respond_to do |mock|
             mock.get "/1.0/users/cored/", headers, fixture_for('projects'), 200 
+            mock.get "/1.0/repositories/cored/test-repo/issues/", headers, fixture_for('issues'), 200
         end
     end
 
     describe "BitbucketAPI::Repository" do 
+        before(:each) do 
+            @call = BitbucketAPI::Repository.find(:all, :username => 'cored')
+        end
         it "should extract a repository for a giving user" do 
-            BitbucketAPI::Repository.find(:all, :username => 'cored').should be_an_instance_of(Array)
+            @call.should be_an_instance_of(Array)
         end
 
         it "should have an array of issues" do 
-            BitbucketAPI::Repository.find(:all, :username => 'cored').issues.should be_an_instance_of(Array)
+            @call.first.issues.should be_an_instance_of(Array)
         end
     end
 
@@ -30,6 +34,12 @@ describe "BitbucketAPI" do
 
         it "should have a list of repositories" do 
             @call.repositories.should be_an_instance_of(Array)
+        end
+    end
+
+    describe "BitbucketAPI::Issue" do 
+        it "should return a list of issues for a giving user" do 
+            BitbucketAPI::Issue.find(:all, :params => {:username => 'cored', :repository => 'test-repo'}).should be_an_instance_of(Array)
         end
     end
 end
