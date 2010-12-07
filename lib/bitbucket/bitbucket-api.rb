@@ -62,6 +62,8 @@ module BitbucketAPI
       def self.find_every(options)
         if options[:from].is_a?(String) || !options[:username].blank?
           User.find(options[:from].is_a?(String) || options[:username]).repositories
+        elsif !options[:from].is_a?(String) || options[:username].blank?
+          User.find(self.user).repositories
         else
           super(options)
         end

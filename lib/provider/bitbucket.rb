@@ -2,7 +2,7 @@ module TicketMaster::Provider
   # This is the Bitbucket Provider for ticketmaster
   module Bitbucket
     include TicketMaster::Provider::Base
-    #TICKET_API = Bitbucket::Ticket # The class to access the api's tickets
+    TICKET_API = Bitbucket::Ticket # The class to access the api's tickets
     PROJECT_API = Bitbucket::Project # The class to access the api's projects
     
     # This is for cases when you want to instantiate using TicketMaster::Provider::Bitbucket.new(auth)
