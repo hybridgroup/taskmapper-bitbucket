@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "Ticketmaster::Provider::Bitbucket::Project" do
     before(:all) do 
         headers = {'Authorization' => 'Basic Zm9vOjAwMDAwMA==', 'Accept' => 'application/json'}
+        @project_id = 'test-repo'
         ActiveResource::HttpMock.respond_to do |mock|
             mock.get '/1.0/users/foo/', headers, fixture_for('projects'), 200 
         end
@@ -15,5 +16,10 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
 
     it "should be able to load all projects" do 
         @ticketmaster.projects.should be_an_instance_of(Array)
+        @ticketmaster.projects.first.should be_an_instance_of(@klass)
+    end
+
+    it "should be able to load all projects from an array of id's" do 
+        @projects = @ticketmaster.projects(@project_id)
     end
 end
