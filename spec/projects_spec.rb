@@ -1,25 +1,44 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Ticketmaster::Provider::Bitbucket::Project" do
-    before(:all) do 
-        headers = {'Authorization' => 'Basic Zm9vOjAwMDAwMA==', 'Accept' => 'application/json'}
-        @project_id = 'test-repo'
-        ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/1.0/users/foo/', headers, fixture_for('projects'), 200 
-        end
-    end
+  before(:all) do 
+    @repo_name = "test-repo"
+    @klass = TicketMaster::Provider::Bitbucket::Project
+  end
 
-    before(:each) do 
-        @ticketmaster = TicketMaster.new(:bitbucket, {:username => 'foo', :password => '000000'})
-        @klass = TicketMaster::Provider::Bitbucket::Project
-    end
+  before(:each) do 
+    #@repository = Factory.build :repository
+    @repositories = [TicketMaster::Provider::Bitbucket::Project.new]
+    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => 'hithere'})
+  end
 
-    it "should be able to load all projects" do 
-        @ticketmaster.projects.should be_an_instance_of(Array)
-        @ticketmaster.projects.first.should be_an_instance_of(@klass)
-    end
+  it "should be able to load all projects" do 
+    #Bucketface::Client.stub!(:list_repos).and_return(@repositories)
+    projects = @bitbucket.projects
+    projects.should be_an_instance_of(Array)
+    projects.first.should be_an_instance_of(@klass)
+  end
 
-    it "should be able to load all projects from an array of id's" do 
-        @projects = @ticketmaster.projects(@project_id)
-    end
+  it "should be able to find by name(id)" do
+    p = @bitbucket.project(@repo_name)
+    p.should be_an_instance_of(@klass)
+    p.name.should be_eql(@repo_name)
+  end
+
+  it "should be able to find by name(id) with find method" do 
+  end
+
+  it "should be able to get projects with array of names" do
+    p = @bitbucket.projects([@repo_name])
+    p.should be_an_instance_of(Array)
+    p.first.should be_an_instance_of(@klass)
+  end
+
+  it "should be able to find by attributes (name and repo)" do
+    p = @bitbucket.project.find(:first, {:user => 'cored', :repo => 'test-repo'})
+    p.should be_an_instance_of(@klass)
+  end
+
+  it "should be able to find repos in an array" do
+  end
 end

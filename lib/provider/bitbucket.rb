@@ -4,6 +4,7 @@ module TicketMaster::Provider
     include TicketMaster::Provider::Base
     TICKET_API = Bitbucket::Ticket # The class to access the api's tickets
     PROJECT_API = Bitbucket::Project # The class to access the api's projects
+    attr_reader :client
     
     # This is for cases when you want to instantiate using TicketMaster::Provider::Bitbucket.new(auth)
     def self.new(auth = {})
@@ -18,13 +19,28 @@ module TicketMaster::Provider
       if auth.username.nil? or auth.password.nil?
         raise "Please provide at least a public username"
       end
-      BitbucketAPI.username = auth.username 
-      BitbucketAPI.authenticate(auth.username, auth.password)
+      @client = Bucketface::Client.new(:login => auth.username, :password => auth.password)
     end
-    
-    # declare needed overloaded methods here
-    
+
+    def projects(*options)
+      if options.empty?
+        Project.find(:all, :user => @client.user.username).collect{|repo| Project.new repo }
+      elsif options.first.is_a?(Array)
+        options.collect{ |name| Project.find(:user => @client.user.username, :repo => name)}
+      end
+    end
+
+    def project(*name)
+      unless name.empty?
+        Project.find(:user => @client.user.username, :repo => name.first)
+      else
+        super
+      end
+    end
   end
+
+  # declare needed overloaded methods here
+
 end
 
 
