@@ -20,5 +20,8 @@ module BitbucketAPI
 
     class Issue
     end
+
+    class Repository
+    end
     
 end
