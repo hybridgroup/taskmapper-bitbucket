@@ -16,6 +16,10 @@ module BitbucketAPI
             end
         end
 
+        def resources
+          @resource ||= []
+        end
+
     end
 
     class Issue
