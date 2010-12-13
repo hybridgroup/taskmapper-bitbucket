@@ -31,6 +31,18 @@ module BitbucketAPI
           Bucketface.list_repos(attributes[:username])
         end
       end
+
+      def issues
+        Issue.find(:all, :username => 'cored', :slug => 'test-repo')
+      end
+    end
+
+    class Issue
+      def self.find(mode, attributes = {})
+        if !mode.nil? and mode == :all
+          Bucketface.issues(attributes)
+        end
+      end
     end
 
 end
