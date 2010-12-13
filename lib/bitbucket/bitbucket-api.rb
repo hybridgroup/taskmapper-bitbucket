@@ -26,6 +26,11 @@ module BitbucketAPI
     end
 
     class Repository
+      def self.find(mode, attributes = {})
+        if !mode.nil? and mode == :all
+          Bucketface.list_repos(attributes[:username])
+        end
+      end
     end
-    
+
 end

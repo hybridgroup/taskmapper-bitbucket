@@ -3,12 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe "BitbucketAPI" do
 
     before(:all) do
-        headers = {'Authorization' => 'Basic Zm9vOjAwMDAwMA==', 'Accept' => 'application/json'}
-        @repo_response = { :prefix => 1 }
-        ActiveResource::HttpMock.respond_to do |mock|
-            mock.get "/1.0/users/cored/", headers, fixture_for('projects'), 200 
-            mock.get "/1.0/repositories/cored/test-repo/issues/", headers, fixture_for('issues'), 200
-        end
     end
 
     describe "BitbucketAPI::Repository" do 
