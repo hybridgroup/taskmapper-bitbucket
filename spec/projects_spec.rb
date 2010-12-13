@@ -15,11 +15,8 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
     end
 
     it "should be able to load all projects" do 
-        @ticketmaster.projects.should be_an_instance_of(Array)
-        @ticketmaster.projects.first.should be_an_instance_of(@klass)
     end
 
     it "should be able to load all projects from an array of id's" do 
-        @projects = @ticketmaster.projects(@project_id)
     end
 end
