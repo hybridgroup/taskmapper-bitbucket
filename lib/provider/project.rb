@@ -4,7 +4,7 @@ module TicketMaster::Provider
     #
     #
     class Project < TicketMaster::Provider::Base::Project
-     # API = BitbucketAPI::Repository # The class to access the api's projects
+      API = Bucketface::Client # The class to access the api's projects
       # declare needed overloaded methods here
        
       # copy from this.copy(that) copies that into this
@@ -16,6 +16,15 @@ module TicketMaster::Provider
             sleep 1
           end
         end
+      end
+
+      def self.find_by_id(id)
+        warn "Bitbucket API only finds by name" 
+        self.new self::API.repo({:user => @client.user, :repo => id})
+      end
+
+      def self.find(*options)
+        self::API.list_repos(options[:username]).collect { |repo| self.new repo }
       end
 
     end
