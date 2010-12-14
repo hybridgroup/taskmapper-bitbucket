@@ -5,15 +5,8 @@ require 'ticketmaster'
 require 'ticketmaster-bitbucket'
 require 'spec'
 require 'spec/autorun'
-require 'fakeweb'
 
-FakeWeb.allow_net_connect = false
+Dir["#{File.dirname(__FILE__)}/factories/*.rb"].each {|f| require f }
 
 Spec::Runner.configure do |config|
-  
 end
-
-def fixture_for(name)
-    File.read(File.dirname(__FILE__) + '/fixtures/' + name + '.json')
-end
-
