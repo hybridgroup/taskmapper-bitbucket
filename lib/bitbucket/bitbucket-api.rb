@@ -22,27 +22,37 @@ module BitbucketAPI
 
     end
 
-    class Issue
-    end
-
     class Repository
+      attr_reader :username, :slug
+      def initialize(slug, username)
+        @slug = slug
+        @username = username
+      end
       def self.find(mode, attributes = {})
+        repositories = []
         if !mode.nil? and mode == :all
-          Bucketface.list_repos(attributes[:username])
+          Bucketface.list_repos(attributes[:username]).each do |repo|
+            repo = Repository.new(repo.slug, attributes[:username])
+            repositories << repo
+          end
         end
+        repositories
       end
 
       def issues
-        Issue.find(:all, :username => 'cored', :slug => 'test-repo')
+        Issue.find(:all, :params => {:username => self.username, :repo => self.slug})
       end
     end
 
     class Issue
       def self.find(mode, attributes = {})
         if !mode.nil? and mode == :all
-          Bucketface.issues(attributes)
+          Bucketface.issues(attributes[:params])
         end
       end
+    end
+
+    class User
     end
 
 end
