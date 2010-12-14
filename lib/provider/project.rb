@@ -42,5 +42,3 @@ module TicketMaster::Provider
     end
   end
 end
-
-
