@@ -36,8 +36,16 @@ module TicketMaster::Provider
         self.new self::API.repo({:user => @client.user, :repo => id})
       end
 
-      def self.search(options = {}, limit = 1000)
+      def self.find(*options)
         self::API.list_repos(options[:username]).collect { |repo| self.new repo }
+      end
+
+      def self.search(options = {}, limit = 1000)
+        []
+      end
+
+      def self.find_by_attributes(attributes = {})
+        []
       end
     end
   end
