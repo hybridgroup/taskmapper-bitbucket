@@ -6,7 +6,20 @@ module TicketMaster::Provider
     class Project < TicketMaster::Provider::Base::Project
       API = Bucketface::Client # The class to access the api's projects
       # declare needed overloaded methods here
-       
+      attr_accessor :name 
+
+      def initialize(*object)
+        if object.first
+          object = object.first
+          @system_data = {:client => object}
+          hash = {'description' => object.description,
+            'name'  => object.name,
+            'slug' => object.slug}
+          @name = object.name
+          super hash
+        end
+      end
+
       # copy from this.copy(that) copies that into this
       def copy(project)
         project.tickets.each do |ticket|
@@ -23,10 +36,9 @@ module TicketMaster::Provider
         self.new self::API.repo({:user => @client.user, :repo => id})
       end
 
-      def self.find(*options)
+      def self.search(options = {}, limit = 1000)
         self::API.list_repos(options[:username]).collect { |repo| self.new repo }
       end
-
     end
   end
 end
