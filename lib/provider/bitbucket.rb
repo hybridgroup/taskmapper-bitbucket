@@ -18,11 +18,28 @@ module TicketMaster::Provider
       if auth.username.nil? or auth.password.nil?
         raise "Please provide at least a public username"
       end
+      @client = Bucketface::Client.new(:login => auth.username, :password => auth.password)
     end
-    
-    # declare needed overloaded methods here
-    
+
+    def projects(*options)
+      if options.empty?
+        PROJECT_API.find(:user => @client.user).collect{|repo| Project.new repo }
+      elsif options.first.is_a?(Array)
+        options.collect{ |name| Project.find(name)}.first
+      end
+    end
+
+    def project(*name)
+      unless name.empty?
+        Project.find(name.first)
+      else
+        super
+      end
+    end
   end
+
+  # declare needed overloaded methods here
+
 end
 
 
