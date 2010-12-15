@@ -4,7 +4,7 @@ module TicketMaster::Provider
     #
     #
     class Project < TicketMaster::Provider::Base::Project
-      API = Bucketface::Client # The class to access the api's projects
+      API = Bucketface # The class to access the api's projects
       # declare needed overloaded methods here
       attr_accessor :name 
 
@@ -37,7 +37,8 @@ module TicketMaster::Provider
       end
 
       def self.find(*options)
-        self::API.list_repos(options[:username]).collect { |repo| self.new repo }
+        first = options.shift
+        self::API.list_repos(first[:username]).collect { |repo| self.new repo }
       end
 
       def self.search(options = {}, limit = 1000)

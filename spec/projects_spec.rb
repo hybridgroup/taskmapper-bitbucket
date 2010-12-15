@@ -7,8 +7,8 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
   end
 
   before(:each) do 
-    #@repository = Factory.build(:repository)
-    @repositories = [@repository]
+    #@repository = Factory.build :repository
+    @repositories = [TicketMaster::Provider::Bitbucket::Project.new]
     @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => 'hithere'})
   end
 
