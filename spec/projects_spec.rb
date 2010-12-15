@@ -43,5 +43,8 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
   end
 
   it "should be able to find repos in an array" do
+    p = @bitbucket.project.find(:all, ['test-repo'])
+    p.should be_an_instance_of(Array)
+    p.first.should be_an_instance_of(@klass)
   end
 end

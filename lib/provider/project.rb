@@ -32,6 +32,10 @@ module TicketMaster::Provider
         end
       end
 
+      def self.find_by_id(id)
+        self.new self::API.api.repo(:user => self::API.api.login, :repo => id)
+      end
+
       def self.find(*options)
         mode = options.shift
         first = options.shift
@@ -39,6 +43,8 @@ module TicketMaster::Provider
           self::API.api.list_repos(first[:user]).collect { |repo| self.new repo }
         elsif mode == :all 
           self::API.api.list_repos.collect { |repo| self.new repo }
+        elsif mode == :all and first.is_a? Array
+          first.collect {|id| self.find_by_id(id) }
         elsif mode.is_a? Hash
           self.new self::API.api.repo(:user => mode[:user], :repo => mode[:repo])
         elsif mode == :first 
