@@ -44,6 +44,10 @@ module TicketMaster::Provider
         []
       end
 
+      def tickets(*options)
+        []
+      end
+
       def self.find_by_attributes(attributes = {})
         []
       end

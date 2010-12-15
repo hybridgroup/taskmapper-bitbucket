@@ -23,7 +23,7 @@ module TicketMaster::Provider
 
     def projects(*options)
       if options.empty?
-        PROJECT_API.find(:user => @client.user).collect{|repo| Project.new repo }
+        Project.find(:user => @client.user).collect{|repo| Project.new repo }
       elsif options.first.is_a?(Array)
         options.collect{ |name| Project.find(name)}.first
       end
