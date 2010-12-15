@@ -31,4 +31,8 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
     ticket.should be_an_instance_of(@klass)
   end
 
+  it "should find a ticket by id(number)" do 
+    ticket = @project.tickets(@ticket_id).should be_an_instance_of(@klass)
+  end
+
 end

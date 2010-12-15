@@ -61,8 +61,14 @@ module TicketMaster::Provider
         elsif first.is_a? Array
           first.collect { |id| TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)}
         elsif first.is_a? Hash
-          TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, first[:number])
+          self.find_ticket_by_id(first[:number])
+        elsif first.is_a? String
+          self.find_ticket_by_id(first)
         end
+      end
+
+      def find_ticket_by_id(id)
+        TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)
       end
 
     end
