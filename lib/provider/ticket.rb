@@ -11,8 +11,15 @@ module TicketMaster::Provider
           object = object.first
           @system_data = {:client => object}
           unless object.is_a? Hash
-            hash = {:repository => object.repository.name}
+            hash = {:repository => object.repository,
+                    :user => object.user,
+                    :metadata => object.metadata,
+                    :reported_by => object.reported_by,
+                    :created_on => object.created_on}
+          else
+            hash = object
           end
+          super hash
         end
       end
       

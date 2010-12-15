@@ -40,15 +40,15 @@ module TicketMaster::Provider
         mode = options.shift
         first = options.shift
         if mode == :all and first.is_a? Hash
-          self::API.api.list_repos(first[:user]).collect { |repo| self.new repo }
+          API.api.list_repos(first[:user]).collect { |repo| self.new repo }
         elsif mode == :all 
-          self::API.api.list_repos.collect { |repo| self.new repo }
+          API.api.list_repos.collect { |repo| self.new repo }
         elsif mode == :all and first.is_a? Array
           first.collect {|id| self.find_by_id(id) }
         elsif mode.is_a? Hash
           self.find_by_id(mode[:repo])
         elsif mode == :first 
-          self.new self::API.api.repo(:user => first[:user], :repo => first[:repo])
+          self.new API.api.repo(:user => first[:user], :repo => first[:repo])
         elsif mode.is_a? String
           self.find_by_id(mode)
         end
@@ -57,7 +57,7 @@ module TicketMaster::Provider
       def tickets(*options)
         first = options.shift
         if first.nil? || (first == :all and options.nil?)
-          self::API.api.issues({:user => self::API.api.login, :repo => self.slug}).collect { |issue| puts issue }
+          API.api.issues({:user => API.api.login, :repo => self.name}).collect { |issue| TicketMaster::Provider::Bitbucket::Ticket.new issue }
         end
       end
 
