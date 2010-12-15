@@ -4,7 +4,7 @@ module TicketMaster::Provider
     #
     
     class Ticket < TicketMaster::Provider::Base::Ticket
-      API = BitbucketAPI::Issue # The class to access the api's tickets
+      #API = BitbucketAPI::Issue # The class to access the api's tickets
       # declare needed overloaded methods here
       
     end
