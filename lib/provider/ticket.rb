@@ -4,7 +4,7 @@ module TicketMaster::Provider
     #
     
     class Ticket < TicketMaster::Provider::Base::Ticket
-      #API = BitbucketAPI::Issue # The class to access the api's tickets
+      API = Bucketface::Client # The class to access the api's tickets
       # declare needed overloaded methods here
       def initialize(*object)
         if object.first
@@ -19,6 +19,12 @@ module TicketMaster::Provider
           super hash
         end
       end
+
+      def self.open(project_id, *options)
+        first = options.first
+        self.new API.api.open_issue({:user => API.api.login, :repo => project_id}, first[:title], first[:body])
+      end
+
     end
   end
 end

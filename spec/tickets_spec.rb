@@ -35,4 +35,9 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
     ticket = @project.tickets(@ticket_id).should be_an_instance_of(@klass)
   end
 
+  it "should be able to open a new ticket" do 
+    tick = @project.ticket!({:body => "new ticket", :title => "new"})
+    tick.should be_an_instance_of(@klass)
+  end
+
 end

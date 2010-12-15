@@ -67,9 +67,14 @@ module TicketMaster::Provider
         end
       end
 
+      def ticket!(*options)
+        TicketMaster::Provider::Bitbucket::Ticket.open(self.name, {:params => options.first})
+      end
+
       def find_ticket_by_id(id)
         TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)
       end
+
 
     end
   end
