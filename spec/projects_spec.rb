@@ -26,6 +26,9 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
   end
 
   it "should be able to find by name(id) with find method" do 
+    p = @bitbucket.project.find(@repo_name)
+    p.should be_an_instance_of(@klass)
+    p.name.should be_eql(@repo_name)
   end
 
   it "should be able to get projects with array of names" do

@@ -43,6 +43,8 @@ module TicketMaster::Provider
           self.new self::API.api.repo(:user => mode[:user], :repo => mode[:repo])
         elsif mode == :first 
           self.new self::API.api.repo(:user => first[:user], :repo => first[:repo])
+        elsif mode.is_a? String
+          self.new self::API.api.repo(:user => self::API.api.login, :repo => mode)
         end
       end
 
