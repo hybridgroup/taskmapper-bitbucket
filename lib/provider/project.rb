@@ -39,7 +39,6 @@ module TicketMaster::Provider
         elsif mode.is_a? Hash
           self.new self::API.repo(:user => mode[:user], :repo => mode[:repo])
         elsif mode.is_a? String
-          puts Bucketface::Client.login
           self.new self::API.repo(:user => 'cored', :repo => mode)
         end
       end
