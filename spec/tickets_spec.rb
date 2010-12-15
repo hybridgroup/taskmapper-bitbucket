@@ -28,7 +28,7 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
 
   it "should be able to find a single ticket based on number attribute" do 
     ticket = @project.tickets({:number => @ticket_id})
-    ticket.should be_an_instance_of(@lkass)
+    ticket.should be_an_instance_of(@klass)
   end
 
 end
