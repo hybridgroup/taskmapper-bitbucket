@@ -46,7 +46,7 @@ module TicketMaster::Provider
         elsif mode == :all and first.is_a? Array
           first.collect {|id| self.find_by_id(id) }
         elsif mode.is_a? Hash
-          self.new self::API.api.repo(:user => mode[:user], :repo => mode[:repo])
+          self.find_by_id(mode[:repo])
         elsif mode == :first 
           self.new self::API.api.repo(:user => first[:user], :repo => first[:repo])
         elsif mode.is_a? String
@@ -57,8 +57,7 @@ module TicketMaster::Provider
       def tickets(*options)
         first = options.shift
         if first.nil? || (first == :all and options.nil?)
-          puts "Owner: #{self.owner}"
-          Bucketface.issues({:user => self.owner, :repo => self.slug})
+          self::API.api.issues({:user => self::API.api.login, :repo => self.slug}).collect { |issue| puts issue }
         end
       end
 

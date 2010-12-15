@@ -32,7 +32,7 @@ module TicketMaster::Provider
 
     def project(*name)
       unless name.empty?
-        Project.find(:user => @client.user.username, :repo => name.first)
+        Project.find(:repo => name.first)
       else
         super
       end
