@@ -40,23 +40,12 @@ module TicketMaster::Provider
         mode = options.shift
         first = options.shift
         if mode == :all
-          self::API.list_repos(first[:username]).collect { |repo| self.new repo }
-        elsif mode.is_a? String
-          self::API.repo(first)
+          self::API.list_repos(first[:user]).collect { |repo| self.new repo }
+        else
+          self.new self::API.repo(:user => mode[:user], :repo => mode[:repo])
         end
       end
 
-      def self.search(options = {}, limit = 1000)
-        []
-      end
-
-      def tickets(*options)
-        []
-      end
-
-      def self.find_by_attributes(attributes = {})
-        []
-      end
     end
   end
 end

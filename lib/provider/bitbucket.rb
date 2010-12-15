@@ -23,7 +23,7 @@ module TicketMaster::Provider
 
     def projects(*options)
       if options.empty?
-        Project.find(:all, :username => @client.user.username).collect{|repo| Project.new repo }
+        Project.find(:all, :user => @client.user.username).collect{|repo| Project.new repo }
       elsif options.first.is_a?(Array)
         options.collect{ |name| Project.find(name)}.first
       end
@@ -31,7 +31,7 @@ module TicketMaster::Provider
 
     def project(*name)
       unless name.empty?
-        Project.find(name.first)
+        Project.find(:user => @client.user.username, :repo => name.first)
       else
         super
       end
