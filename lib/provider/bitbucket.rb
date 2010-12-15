@@ -4,6 +4,7 @@ module TicketMaster::Provider
     include TicketMaster::Provider::Base
     TICKET_API = Bitbucket::Ticket # The class to access the api's tickets
     PROJECT_API = Bitbucket::Project # The class to access the api's projects
+    attr_reader :client
     
     # This is for cases when you want to instantiate using TicketMaster::Provider::Bitbucket.new(auth)
     def self.new(auth = {})

@@ -31,18 +31,16 @@ module TicketMaster::Provider
         end
       end
 
-      def self.find_by_id(id)
-        warn "Bitbucket API only finds by name" 
-        self.new self::API.repo({:user => @client.user.username, :repo => id})
-      end
-
       def self.find(*options)
         mode = options.shift
         first = options.shift
         if mode == :all
           self::API.list_repos(first[:user]).collect { |repo| self.new repo }
-        else
+        elsif mode.is_a? Hash
           self.new self::API.repo(:user => mode[:user], :repo => mode[:repo])
+        elsif mode.is_a? String
+          puts Bucketface::Client.login
+          self.new self::API.repo(:user => 'cored', :repo => mode)
         end
       end
 
