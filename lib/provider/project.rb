@@ -50,7 +50,7 @@ module TicketMaster::Provider
         elsif mode == :first 
           self.new self::API.api.repo(:user => first[:user], :repo => first[:repo])
         elsif mode.is_a? String
-          self.new self::API.api.repo(:user => self::API.api.login, :repo => mode)
+          self.find_by_id(mode)
         end
       end
 
