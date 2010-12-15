@@ -8,6 +8,7 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
 
   before(:each) do 
     @projects = @bitbucket.projects
+    @ticket_id = "1"
     @project = TicketMaster::Provider::Bitbucket::Project.new @projects.first
   end
 
@@ -15,6 +16,14 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
     tickets = @project.tickets
     tickets.should be_an_instance_of(Array)
     tickets.first.should be_an_instance_of(@klass)
+  end
+
+  it "should be able to extract tickets from an array of id's" do
+    tickets = @project.tickets([@ticket_id])
+    tickets.should be_an_instance_of(Array)
+    ticket = tickets.first
+    ticket.should be_an_instance_of(@klass)
+    ticket.local_id.should == 1
   end
 
 end

@@ -15,7 +15,8 @@ module TicketMaster::Provider
                     :user => object.user,
                     :metadata => object.metadata,
                     :reported_by => object.reported_by,
-                    :created_on => object.created_on}
+                    :created_on => object.created_on,
+                    :local_id => object.local_id}
           else
             hash = object
           end

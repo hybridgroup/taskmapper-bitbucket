@@ -58,6 +58,8 @@ module TicketMaster::Provider
         first = options.shift
         if first.nil? || (first == :all and options.nil?)
           API.api.issues({:user => API.api.login, :repo => self.name}).collect { |issue| TicketMaster::Provider::Bitbucket::Ticket.new issue }
+        elsif first.is_a? Array
+          first.collect { |id| TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)}
         end
       end
 
