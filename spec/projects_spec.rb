@@ -19,6 +19,9 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
     projects.first.should be_an_instance_of(@klass)
   end
 
-  it "should be able to load all projects from an array of id's" do 
+  it "should be able to find by name(id)" do
+    p = @bitbucket.project(@repo_name)
+    p.should be_an_instance_of(@klass)
+    p.name.should be_eql(@repo_name)
   end
 end
