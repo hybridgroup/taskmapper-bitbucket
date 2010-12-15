@@ -16,14 +16,13 @@ module TicketMaster::Provider
                     :metadata => object.metadata,
                     :reported_by => object.reported_by,
                     :created_on => object.created_on,
-                    :local_id => object.local_id}
+                    :id => object.local_id}
           else
             hash = object
           end
           super hash
         end
       end
-      
     end
   end
 end
