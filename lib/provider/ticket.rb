@@ -21,7 +21,7 @@ module TicketMaster::Provider
       end
 
       def self.open(project_id, *options)
-        first = options.first
+        first = options.first[:params]
         self.new API.api.open_issue({:user => API.api.login, :repo => project_id}, first[:title], first[:body])
       end
 
