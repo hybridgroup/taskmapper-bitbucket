@@ -24,7 +24,7 @@ module TicketMaster::Provider
 
     def projects(*options)
       if options.empty?
-        Project.find(:all, :user => @client.user.username).collect{|repo| Project.new repo }
+        Project.find(:all).collect{|repo| Project.new repo }
       elsif options.first.is_a?(Array)
         options.collect{ |name| Project.find(:user => @client.user.username, :repo => name)}
       end
@@ -37,6 +37,7 @@ module TicketMaster::Provider
         super
       end
     end
+
   end
 
   # declare needed overloaded methods here

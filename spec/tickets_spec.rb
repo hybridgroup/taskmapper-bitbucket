@@ -7,14 +7,9 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
   end
 
   before(:each) do 
-    @ticket_id = "1"
-    @project = @bitbucket.project('test-repo')
   end
 
   it "should be able to load all tickets" do
-    tickets = @project.tickets
-    tickets.should be_an_instance_of(Array)
-    tickets.first.should be_an_instance_of(@klass)
   end
 
 end

@@ -4,9 +4,9 @@ module TicketMaster::Provider
     #
     #
     class Project < TicketMaster::Provider::Base::Project
-      API = Bucketface # The class to access the api's projects
+      API = Bucketface::Client # The class to access the api's projects
       # declare needed overloaded methods here
-      attr_accessor :name 
+      attr_accessor :name, :slug, :owner 
 
       def initialize(*object)
         if object.first
@@ -14,7 +14,8 @@ module TicketMaster::Provider
           @system_data = {:client => object}
           hash = {'description' => object.description,
             'name'  => object.name,
-            'slug' => object.slug}
+            'slug' => object.slug, 
+            'owner' => object.owner}
           @name = object.name
           super hash
         end
@@ -35,11 +36,21 @@ module TicketMaster::Provider
         mode = options.shift
         first = options.shift
         if mode == :all and first.is_a? Hash
-          self::API.list_repos(first[:user]).collect { |repo| self.new repo }
+          self::API.api.list_repos(first[:user]).collect { |repo| self.new repo }
+        elsif mode == :all 
+          self::API.api.list_repos.collect { |repo| self.new repo }
         elsif mode.is_a? Hash
-          self.new self::API.repo(:user => mode[:user], :repo => mode[:repo])
+          self.new self::API.api.repo(:user => mode[:user], :repo => mode[:repo])
         elsif mode == :first 
-          self.new self::API.repo(:user => first[:user], :repo => first[:repo])
+          self.new self::API.api.repo(:user => first[:user], :repo => first[:repo])
+        end
+      end
+
+      def tickets(*options)
+        first = options.shift
+        if first.nil? || (first == :all and options.nil?)
+          puts "Owner: #{self.owner}"
+          Bucketface.issues({:user => self.owner, :repo => self.slug})
         end
       end
 
