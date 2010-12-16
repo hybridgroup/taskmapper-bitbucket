@@ -44,9 +44,6 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
 
   it "should be able to reopen a ticket"
 
-  it "should be able to close a ticket" do 
-    tick = @project.tickets(:number => "17")
-    tick.close.should be_an_instance_of(@klass)
-  end
+  it "should be able to close a ticket" 
 
 end
