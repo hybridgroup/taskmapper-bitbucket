@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Ticketmaster::Provider::Bitbucket::Ticket" do
   before(:all) do 
-    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => 'yfu37samnx'})
+    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => '123456'})
     @klass = TicketMaster::Provider::Bitbucket::Ticket
   end
 
@@ -38,6 +38,15 @@ describe "Ticketmaster::Provider::Bitbucket::Ticket" do
   it "should be able to open a new ticket" do 
     tick = @project.ticket!({:body => "new ticket", :title => "new"})
     tick.should be_an_instance_of(@klass)
+  end
+
+  it "should be able to update an existing ticket"
+
+  it "should be able to reopen a ticket"
+
+  it "should be able to close a ticket" do 
+    tick = @project.tickets(:number => "17")
+    tick.close.should be_an_instance_of(@klass)
   end
 
 end

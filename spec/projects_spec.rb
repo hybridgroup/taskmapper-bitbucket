@@ -9,7 +9,7 @@ describe "Ticketmaster::Provider::Bitbucket::Project" do
   before(:each) do 
     #@repository = Factory.build :repository
     @repositories = [TicketMaster::Provider::Bitbucket::Project.new]
-    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => 'yfu37samnx'})
+    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => '123456'})
   end
 
   it "should be able to load all projects" do 
