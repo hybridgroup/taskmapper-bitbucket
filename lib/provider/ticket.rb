@@ -1,9 +1,9 @@
-module TicketMaster::Provider
+module TaskMapper::Provider
   module Bitbucket
-    # Ticket class for ticketmaster-bitbucket
+    # Ticket class for taskmapper-bitbucket
     #
     
-    class Ticket < TicketMaster::Provider::Base::Ticket
+    class Ticket < TaskMapper::Provider::Base::Ticket
       API = Bucketface::Client # The class to access the api's tickets
       # declare needed overloaded methods here
       attr_reader :repository

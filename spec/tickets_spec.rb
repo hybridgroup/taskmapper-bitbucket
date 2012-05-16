@@ -1,15 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Ticketmaster::Provider::Bitbucket::Ticket" do
+describe "TaskMapper::Provider::Bitbucket::Ticket" do
   before(:all) do 
-    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => '123456'})
-    @klass = TicketMaster::Provider::Bitbucket::Ticket
+    @bitbucket = TaskMapper.new(:bitbucket, {:username => 'cored', :password => '123456'})
+    @klass = TaskMapper::Provider::Bitbucket::Ticket
   end
 
   before(:each) do 
     @projects = @bitbucket.projects
     @ticket_id = "1"
-    @project = TicketMaster::Provider::Bitbucket::Project.new @projects.first
+    @project = TaskMapper::Provider::Bitbucket::Project.new @projects.first
   end
 
   it "should be able to load all tickets" do

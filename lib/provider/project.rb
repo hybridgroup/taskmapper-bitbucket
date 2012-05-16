@@ -1,9 +1,9 @@
-module TicketMaster::Provider
+module TaskMapper::Provider
   module Bitbucket
-    # Project class for ticketmaster-bitbucket
+    # Project class for taskmapper-bitbucket
     #
     #
-    class Project < TicketMaster::Provider::Base::Project
+    class Project < TaskMapper::Provider::Base::Project
       API = Bucketface::Client # The class to access the api's projects
       # declare needed overloaded methods here
       attr_accessor :name, :slug, :owner 
@@ -57,9 +57,9 @@ module TicketMaster::Provider
       def tickets(*options)
         first = options.shift
         if first.nil? || (first == :all and options.nil?)
-          API.api.issues({:user => API.api.login, :repo => self.name}).collect { |issue| TicketMaster::Provider::Bitbucket::Ticket.new issue }
+          API.api.issues({:user => API.api.login, :repo => self.name}).collect { |issue| TaskMapper::Provider::Bitbucket::Ticket.new issue }
         elsif first.is_a? Array
-          first.collect { |id| TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)}
+          first.collect { |id| TaskMapper::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)}
         elsif first.is_a? Hash
           self.find_ticket_by_id(first[:number])
         elsif first.is_a? String
@@ -68,11 +68,11 @@ module TicketMaster::Provider
       end
 
       def ticket!(*options)
-        TicketMaster::Provider::Bitbucket::Ticket.open(self.name, {:params => options.first})
+        TaskMapper::Provider::Bitbucket::Ticket.open(self.name, {:params => options.first})
       end
 
       def find_ticket_by_id(id)
-        TicketMaster::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)
+        TaskMapper::Provider::Bitbucket::Ticket.new API.api.issue({:user => API.api.login, :repo => self.name}, id)
       end
 
 

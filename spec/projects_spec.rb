@@ -1,15 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe "Ticketmaster::Provider::Bitbucket::Project" do
+describe "TaskMapper::Provider::Bitbucket::Project" do
   before(:all) do 
     @repo_name = "test-repo"
-    @klass = TicketMaster::Provider::Bitbucket::Project
+    @klass = TaskMapper::Provider::Bitbucket::Project
   end
 
   before(:each) do 
     #@repository = Factory.build :repository
-    @repositories = [TicketMaster::Provider::Bitbucket::Project.new]
-    @bitbucket = TicketMaster.new(:bitbucket, {:username => 'cored', :password => '123456'})
+    @repositories = [TaskMapper::Provider::Bitbucket::Project.new]
+    @bitbucket = TaskMapper.new(:bitbucket, {:username => 'cored', :password => '123456'})
   end
 
   it "should be able to load all projects" do 
